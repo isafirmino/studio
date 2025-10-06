@@ -12,7 +12,7 @@ import {
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import type { UserProfile } from "@/lib/types";
-import { addProcessForUser } from "@/lib/firestore";
+import { createSampleProcessForNewUser } from "@/lib/firestore";
 
 interface AuthContextType {
   user: User | null;
@@ -89,8 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await setDoc(userRef, newProfile);
 
     // Create a sample process for the new user
-    await addProcessForUser(firebaseUser.uid, "1234567-89.2024.8.26.0100");
-
+    await createSampleProcessForNewUser(firebaseUser.uid);
 
     // This will trigger the onAuthStateChanged listener to update the state
   };

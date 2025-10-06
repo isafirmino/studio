@@ -20,6 +20,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Scale } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
@@ -32,6 +39,7 @@ const registerSchema = z.object({
   displayName: z.string().min(1, "O nome completo é obrigatório."),
   email: z.string().email("Por favor, insira um endereço de e-mail válido."),
   password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres."),
+  role: z.string({ required_error: "Por favor, selecione um cargo." }).min(1, "O cargo é obrigatório."),
 });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
@@ -60,7 +68,7 @@ export default function RegisterPage() {
   const onSubmit = async (data: RegisterFormValues) => {
     setIsSubmitting(true);
     try {
-      await registerWithEmail(data.email, data.password, data.displayName);
+      await registerWithEmail(data.email, data.password, data.displayName, data.role);
       toast({
         title: "Cadastro Realizado com Sucesso!",
         description: "Bem-vindo ao JuridicoDocs.",
@@ -127,6 +135,28 @@ export default function RegisterPage() {
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="role"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Cargo</FormLabel>
+                  <Select onValueChange={field.onChange} defaultValue={field.value}>
+                    <FormControl>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Selecione seu cargo" />
+                      </SelectTrigger>
+                    </FormControl>
+                    <SelectContent>
+                      <SelectItem value="Juiz">Juiz</SelectItem>
+                      <SelectItem value="Assessor">Assessor</SelectItem>
+                      <SelectItem value="Desembargador">Desembargador</SelectItem>
+                    </SelectContent>
+                  </Select>
                   <FormMessage />
                 </FormItem>
               )}

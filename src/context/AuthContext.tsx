@@ -19,7 +19,7 @@ interface AuthContextType {
   loading: boolean;
   profileComplete: boolean;
   signInWithEmail: (email: string, password: string) => Promise<void>;
-  registerWithEmail: (email: string, password: string, displayName: string) => Promise<void>;
+  registerWithEmail: (email: string, password: string, displayName: string, role: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -71,7 +71,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await signInWithEmailAndPassword(auth, email, password);
   };
 
-  const registerWithEmail = async (email: string, password: string, displayName: string) => {
+  const registerWithEmail = async (email: string, password: string, displayName: string, role: string) => {
     const userCredential = await createUserWithEmailAndPassword(auth, email, password);
     const firebaseUser = userCredential.user;
 
@@ -83,6 +83,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
       email: firebaseUser.email,
       displayName: displayName,
       photoURL: firebaseUser.photoURL,
+      role: role,
     };
     await setDoc(userRef, newProfile);
 
@@ -92,7 +93,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 
   const signOut = async () => {
     try {
-      await firebaseSignOut(auth);
+      await firebaseSignout(auth);
     } catch (error) {
       console.error("Error signing out: ", error);
     }

@@ -11,13 +11,6 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -30,7 +23,6 @@ import { useEffect } from "react";
 
 const profileSchema = z.object({
   judgingBody: z.string().min(3, "O órgão julgador é obrigatório."),
-  role: z.string().min(3, "O cargo é obrigatório."),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -44,7 +36,6 @@ export default function ProfileForm() {
     resolver: zodResolver(profileSchema),
     defaultValues: {
       judgingBody: "",
-      role: "",
     },
   });
 
@@ -52,7 +43,6 @@ export default function ProfileForm() {
     if (userProfile) {
       form.reset({
         judgingBody: userProfile.judgingBody || "",
-        role: userProfile.role || "",
       });
     }
   }, [userProfile, form]);
@@ -71,7 +61,6 @@ export default function ProfileForm() {
       const userRef = doc(db, "users", user.uid);
       await updateDoc(userRef, {
         judgingBody: data.judgingBody,
-        role: data.role,
       });
       toast({
         title: "Sucesso",
@@ -105,28 +94,15 @@ export default function ProfileForm() {
             </FormItem>
           )}
         />
-        <FormField
-          control={form.control}
-          name="role"
-          render={({ field }) => (
+        {userProfile?.role && (
             <FormItem>
               <FormLabel>Cargo</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione seu cargo" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="Juiz">Juiz</SelectItem>
-                  <SelectItem value="Assessor">Assessor</SelectItem>
-                  <SelectItem value="Desembargador">Desembargador</SelectItem>
-                </SelectContent>
-              </Select>
+              <FormControl>
+                <Input value={userProfile.role} disabled className="bg-muted/50" />
+              </FormControl>
               <FormMessage />
             </FormItem>
-          )}
-        />
+        )}
         <Button type="submit" disabled={form.formState.isSubmitting} className="w-full">
           {form.formState.isSubmitting && (
             <Spinner className="mr-2 h-4 w-4 animate-spin" />

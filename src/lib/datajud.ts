@@ -16,7 +16,7 @@ async function getAuthToken(): Promise<string> {
     return jwtToken;
   }
 
-  const apiKey = process.env.DATAJUD_API_KEY;
+  const apiKey = process.env.NEXT_PUBLIC_DATAJUD_API_KEY;
 
   if (!apiKey || apiKey === 'SUA_CHAVE_DE_API_AQUI') {
     console.error("A chave da API do Datajud não está configurada no arquivo .env");

@@ -19,7 +19,7 @@ async function getAuthToken(): Promise<string> {
   const apiKey = process.env.NEXT_PUBLIC_DATAJUD_API_KEY;
 
   if (!apiKey || apiKey === 'SUA_CHAVE_DE_API_AQUI') {
-    console.error("A chave da API do Datajud não está configurada no arquivo .env");
+    console.error("A chave da API do Datajud não está configurada no arquivo .env. Lembre-se de prefixar a variável com NEXT_PUBLIC_");
     throw new Error('API Key do Datajud não configurada.');
   }
 
@@ -44,6 +44,18 @@ async function getAuthToken(): Promise<string> {
     console.error('Erro ao obter token de autenticação do Datajud:', error);
     throw new Error('Falha na autenticação com a API do Datajud.');
   }
+}
+
+function getPartiesFromPolo(polo: any[] | undefined): string {
+    if (!polo) return "Partes não informadas";
+    
+    const poloAtivo = polo.find(p => p.polo === 'AT');
+    const poloPassivo = polo.find(p => p.polo === 'PA');
+
+    const nomeAtivo = poloAtivo?.pessoa?.nome || 'Parte Ativa não informada';
+    const nomePassivo = poloPassivo?.pessoa?.nome || 'Parte Passiva não informada';
+
+    return `${nomeAtivo} vs. ${nomePassivo}`;
 }
 
 /**
@@ -77,18 +89,22 @@ export async function fetchFromDatajud(processNumber: string): Promise<any> {
       throw new Error('Processo não encontrado no Datajud.');
     }
     
-    // Simula a extração de dados que faremos no firestore.ts
     const source = hit._source;
-    const classe = source.classe?.nome;
-    const assunto = source.assuntos?.map((a: any) => a.nome).join(', ');
-    const partes = source.movimentos?.find((m:any) => m.nome === "DISTRIBUIÇÃO")?.complementos?.find((c:any) => c.nome === "Partes")?.valor;
+
+    // Correção no mapeamento dos dados
+    const parties = getPartiesFromPolo(source.polo);
+    const subject = source.assunto?.find((a:any) => a.principal)?.nome || "Assunto não informado";
+    const aClass = source.classe?.nome || "Classe não informada";
+    const area = source.area || "Área não informada";
+    const date = source.dataAjuizamento || new Date().toISOString();
+
 
     return {
-      parties: partes || "Partes não informadas",
-      subject: assunto || "Assunto não informado",
-      class: classe || "Classe não informada",
-      area: source.area || "Área não informada",
-      date: source.dataAjuizamento || new Date().toISOString(),
+      parties,
+      subject,
+      class: aClass,
+      area,
+      date,
       documents: [] // A API pública não parece retornar documentos diretamente.
     };
 

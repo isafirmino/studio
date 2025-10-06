@@ -3,10 +3,11 @@
 import { createContext, useState, useEffect, ReactNode } from "react";
 import {
   onAuthStateChanged,
-  signInWithPopup,
-  GoogleAuthProvider,
   signOut as firebaseSignOut,
   User,
+  createUserWithEmailAndPassword,
+  signInWithEmailAndPassword,
+  updateProfile,
 } from "firebase/auth";
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
@@ -17,7 +18,8 @@ interface AuthContextType {
   userProfile: UserProfile | null;
   loading: boolean;
   profileComplete: boolean;
-  signInWithGoogle: () => Promise<void>;
+  signInWithEmail: (email: string, password: string) => Promise<void>;
+  registerWithEmail: (email: string, password: string, displayName: string) => Promise<void>;
   signOut: () => Promise<void>;
 }
 
@@ -42,7 +44,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
           setUserProfile(profile);
           setProfileComplete(!!(profile.judgingBody && profile.role));
         } else {
-          // Create profile for new user
+          // This case might happen if a user is created but the profile isn't.
+          // We'll create a basic one.
           const newProfile: UserProfile = {
             uid: firebaseUser.uid,
             email: firebaseUser.email,
@@ -64,14 +67,28 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     return () => unsubscribe();
   }, []);
 
-  const signInWithGoogle = async () => {
-    const provider = new GoogleAuthProvider();
-    try {
-      await signInWithPopup(auth, provider);
-    } catch (error) {
-      console.error("Error signing in with Google: ", error);
-    }
+  const signInWithEmail = async (email: string, password: string) => {
+    await signInWithEmailAndPassword(auth, email, password);
   };
+
+  const registerWithEmail = async (email: string, password: string, displayName: string) => {
+    const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+    const firebaseUser = userCredential.user;
+
+    await updateProfile(firebaseUser, { displayName });
+
+    const userRef = doc(db, "users", firebaseUser.uid);
+    const newProfile: UserProfile = {
+      uid: firebaseUser.uid,
+      email: firebaseUser.email,
+      displayName: displayName,
+      photoURL: firebaseUser.photoURL,
+    };
+    await setDoc(userRef, newProfile);
+
+    // This will trigger the onAuthStateChanged listener to update the state
+  };
+
 
   const signOut = async () => {
     try {
@@ -86,7 +103,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     userProfile,
     loading,
     profileComplete,
-    signInWithGoogle,
+    signInWithEmail,
+    registerWithEmail,
     signOut,
   };
 

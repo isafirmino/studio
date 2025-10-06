@@ -31,9 +31,9 @@ export async function addProcessForUser(
 
   // Add mock documents as a subcollection
   const documents: Omit<LegalDocument, "id">[] = [
-    { name: "Initial Petition.pdf", url: "#", contentText: `Initial Petition Document: ${LOREM_IPSUM}` },
+    { name: "Initial Petition.pdf", url: "#", contentText: `Initial Petition Document: ${LOREM_IPSUM}`, summary: LOREM_IPSUM.substring(0, 200) + '...' },
     { name: "Evidence Submission A.pdf", url: "#", contentText: `Evidence A: ${LOREM_IPSUM}` },
-    { name: "Court Ruling.pdf", url: "#", contentText: `Final Ruling: ${LOREM_IPSUM}` },
+    { name: "Court Ruling.pdf", url: "#", contentText: `Final Ruling: ${LOREM_IPSUM}`, summary: LOREM_IPSUM.substring(0, 150) + '...' },
   ];
 
   for (const document of documents) {
@@ -78,9 +78,4 @@ export async function getProcessDetails(
   processData.documents = documents;
 
   return processData;
-}
-
-export async function saveSummaryToFirestore(processId: string, documentId: string, summary: string) {
-    const docRef = doc(db, "processes", processId, "documents", documentId);
-    await updateDoc(docRef, { summary });
 }

@@ -28,15 +28,16 @@ import { useEffect, useState } from "react";
 import { Spinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 
-const loginSchema = z.object({
+const registerSchema = z.object({
+  displayName: z.string().min(1, "Full name is required."),
   email: z.string().email("Please enter a valid email address."),
-  password: z.string().min(1, "Password is required."),
+  password: z.string().min(6, "Password must be at least 6 characters."),
 });
 
-type LoginFormValues = z.infer<typeof loginSchema>;
+type RegisterFormValues = z.infer<typeof registerSchema>;
 
-export default function LoginPage() {
-  const { signInWithEmail, user } = useAuth();
+export default function RegisterPage() {
+  const { registerWithEmail, user } = useAuth();
   const router = useRouter();
   const { toast } = useToast();
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -47,22 +48,27 @@ export default function LoginPage() {
     }
   }, [user, router]);
 
-  const form = useForm<LoginFormValues>({
-    resolver: zodResolver(loginSchema),
+  const form = useForm<RegisterFormValues>({
+    resolver: zodResolver(registerSchema),
     defaultValues: {
+      displayName: "",
       email: "",
       password: "",
     },
   });
 
-  const onSubmit = async (data: LoginFormValues) => {
+  const onSubmit = async (data: RegisterFormValues) => {
     setIsSubmitting(true);
     try {
-      await signInWithEmail(data.email, data.password);
-      // The AuthProvider will handle redirection upon successful login
+      await registerWithEmail(data.email, data.password, data.displayName);
+      toast({
+        title: "Registration Successful!",
+        description: "Welcome to JuridicoDocs.",
+      });
+      // The AuthProvider will handle redirection upon successful registration
     } catch (error: any) {
       toast({
-        title: "Login Failed",
+        title: "Registration Failed",
         description: error.message || "An unexpected error occurred. Please try again.",
         variant: "destructive",
       });
@@ -76,16 +82,29 @@ export default function LoginPage() {
         <div className="inline-flex justify-center items-center gap-2 mb-4">
             <Scale className="h-8 w-8 text-primary drop-shadow-[0_0_8px_hsl(var(--primary))]" />
             <CardTitle className="text-3xl font-bold font-headline">
-            JuridicoDocs
+            Create an Account
             </CardTitle>
         </div>
         <CardDescription>
-          Enter your email below to login to your account
+          Enter your information to create an account
         </CardDescription>
       </CardHeader>
       <CardContent>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
+            <FormField
+              control={form.control}
+              name="displayName"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>Full Name</FormLabel>
+                  <FormControl>
+                    <Input placeholder="John Doe" {...field} />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="email"
@@ -113,18 +132,18 @@ export default function LoginPage() {
               )}
             />
             <Button type="submit" className="w-full" disabled={isSubmitting}>
-              {isSubmitting ? (
+               {isSubmitting ? (
                 <Spinner className="animate-spin" />
               ) : (
-                "Login"
+                "Create Account"
               )}
             </Button>
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
-          <Link href="/register" className="underline text-primary">
-            Sign up
+          Already have an account?{" "}
+          <Link href="/login" className="underline text-primary">
+            Sign in
           </Link>
         </div>
       </CardContent>

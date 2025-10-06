@@ -31,7 +31,7 @@ export async function addProcessForUser(
       subject: datajudData.subject || "Assunto não informado",
       class: datajudData.class || "Classe não informada",
       area: datajudData.area || "Área não informada",
-      date: datajudData.date ? new Date(datajudData.date).toLocaleDateString('pt-BR') : new Date().toLocaleDateString('pt-BR'),
+      date: datajudData.date ? new Date(datajudData.date).toLocaleDateString('pt-BR', { timeZone: 'UTC' }) : "Data não informada",
     };
 
     // 3. Adicionar o processo principal ao Firestore

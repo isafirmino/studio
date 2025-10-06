@@ -96,7 +96,7 @@ export async function fetchFromDatajud(processNumber: string): Promise<any> {
     const subject = source.assunto?.find((a:any) => a.principal)?.nome || "Assunto não informado";
     const aClass = source.classe?.nome || "Classe não informada";
     const area = source.area || "Área não informada";
-    const date = source.dataAjuizamento || new Date().toISOString();
+    const date = source.dataAjuizamento; // Retorna a data como está para ser tratada depois
 
 
     return {

@@ -12,6 +12,7 @@ import {
 import { doc, getDoc, setDoc } from "firebase/firestore";
 import { auth, db } from "@/lib/firebase";
 import type { UserProfile } from "@/lib/types";
+import { addProcessForUser } from "@/lib/firestore";
 
 interface AuthContextType {
   user: User | null;
@@ -87,13 +88,19 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     };
     await setDoc(userRef, newProfile);
 
+    // Create a sample process for the new user
+    await addProcessForUser(firebaseUser.uid, "9876543-21.2023.8.26.0100");
+
+
     // This will trigger the onAuthStateChanged listener to update the state
   };
 
 
   const signOut = async () => {
     try {
-      await firebaseSignout(auth);
+      await firebaseSignOut(auth);
+      // Redirect to login page after sign out
+      window.location.href = '/login';
     } catch (error) {
       console.error("Error signing out: ", error);
     }

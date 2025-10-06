@@ -89,7 +89,7 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
     await setDoc(userRef, newProfile);
 
     // Create a sample process for the new user
-    await addProcessForUser(firebaseUser.uid, "9876543-21.2023.8.26.0100");
+    await addProcessForUser(firebaseUser.uid, "1234567-89.2024.8.26.0100");
 
 
     // This will trigger the onAuthStateChanged listener to update the state

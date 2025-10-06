@@ -56,7 +56,7 @@ export async function fetchFromDatajud(processNumber: string): Promise<any> {
   
   try {
     const response = await axios.post(
-      `${API_BASE_URL}/${TRIBUNAL}/_search`,
+      `${API_BASE_URL}/v2/${TRIBUNAL}/_search`,
       {
         query: {
           match: {

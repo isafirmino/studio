@@ -22,12 +22,12 @@ export default async function ProcessDetailPage({ params }: ProcessDetailPagePro
   if (!process) {
     return (
       <div className="text-center">
-        <h1 className="text-2xl font-bold">Process Not Found</h1>
+        <h1 className="text-2xl font-bold">Processo Não Encontrado</h1>
         <p className="text-muted-foreground">
-          The process you are looking for does not exist.
+          O processo que você está procurando não existe.
         </p>
         <Button asChild variant="link" className="mt-4">
-            <Link href="/dashboard">Return to Dashboard</Link>
+            <Link href="/dashboard">Retornar ao Painel</Link>
         </Button>
       </div>
     );
@@ -37,7 +37,7 @@ export default async function ProcessDetailPage({ params }: ProcessDetailPagePro
     <div className="space-y-8">
       <div>
         <Button asChild variant="ghost" className="-ml-4 mb-4">
-            <Link href="/dashboard"><ArrowLeft className="mr-2 h-4 w-4" /> Back to Dashboard</Link>
+            <Link href="/dashboard"><ArrowLeft className="mr-2 h-4 w-4" /> Voltar ao Painel</Link>
         </Button>
         <div className="flex flex-wrap items-center justify-between gap-4">
             <h1 className="text-3xl font-bold font-headline">{process.processNumber}</h1>
@@ -48,22 +48,22 @@ export default async function ProcessDetailPage({ params }: ProcessDetailPagePro
       
       <Card>
         <CardHeader>
-            <CardTitle className="font-headline text-xl">Process Details</CardTitle>
+            <CardTitle className="font-headline text-xl">Detalhes do Processo</CardTitle>
         </CardHeader>
         <CardContent className="grid gap-4 sm:grid-cols-2 md:grid-cols-3">
             <div className="space-y-1">
-                <p className="text-sm font-medium text-muted-foreground">Subject</p>
+                <p className="text-sm font-medium text-muted-foreground">Assunto</p>
                 <p>{process.subject}</p>
             </div>
             <div className="space-y-1">
-                <p className="text-sm font-medium text-muted-foreground">Date</p>
+                <p className="text-sm font-medium text-muted-foreground">Data</p>
                 <p>{process.date}</p>
             </div>
         </CardContent>
       </Card>
       
       <div>
-        <h2 className="text-2xl font-semibold font-headline mb-4">Documents</h2>
+        <h2 className="text-2xl font-semibold font-headline mb-4">Documentos</h2>
         <Card>
             <CardContent className="p-0">
                 <div className="space-y-2">
@@ -74,7 +74,7 @@ export default async function ProcessDetailPage({ params }: ProcessDetailPagePro
                     </div>
                 ))}
                 {!process.documents || process.documents.length === 0 && (
-                    <p className="p-6 text-center text-muted-foreground">No documents found for this process.</p>
+                    <p className="p-6 text-center text-muted-foreground">Nenhum documento encontrado para este processo.</p>
                 )}
                 </div>
             </CardContent>

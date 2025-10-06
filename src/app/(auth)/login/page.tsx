@@ -29,8 +29,8 @@ import { Spinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 
 const loginSchema = z.object({
-  email: z.string().email("Please enter a valid email address."),
-  password: z.string().min(1, "Password is required."),
+  email: z.string().email("Por favor, insira um endereço de e-mail válido."),
+  password: z.string().min(1, "A senha é obrigatória."),
 });
 
 type LoginFormValues = z.infer<typeof loginSchema>;
@@ -59,11 +59,11 @@ export default function LoginPage() {
     setIsSubmitting(true);
     try {
       await signInWithEmail(data.email, data.password);
-      // The AuthProvider will handle redirection upon successful login
+      // O AuthProvider cuidará do redirecionamento após o login bem-sucedido
     } catch (error: any) {
       toast({
-        title: "Login Failed",
-        description: error.message || "An unexpected error occurred. Please try again.",
+        title: "Falha no Login",
+        description: error.message || "Ocorreu um erro inesperado. Por favor, tente novamente.",
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -80,7 +80,7 @@ export default function LoginPage() {
             </CardTitle>
         </div>
         <CardDescription>
-          Enter your email below to login to your account
+          Digite seu e-mail abaixo para fazer login em sua conta
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -93,7 +93,7 @@ export default function LoginPage() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="m@example.com" {...field} />
+                    <Input placeholder="m@exemplo.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -104,7 +104,7 @@ export default function LoginPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Senha</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
@@ -116,15 +116,15 @@ export default function LoginPage() {
               {isSubmitting ? (
                 <Spinner className="animate-spin" />
               ) : (
-                "Login"
+                "Entrar"
               )}
             </Button>
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">
-          Don&apos;t have an account?{" "}
+          Não tem uma conta?{" "}
           <Link href="/register" className="underline text-primary">
-            Sign up
+            Cadastre-se
           </Link>
         </div>
       </CardContent>

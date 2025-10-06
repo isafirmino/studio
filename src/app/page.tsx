@@ -26,7 +26,7 @@ export default function Home() {
   return (
     <div className="flex h-screen w-full flex-col items-center justify-center bg-background">
       <Spinner className="h-10 w-10 text-primary drop-shadow-[0_0_8px_hsl(var(--primary))] animate-spin" />
-      <p className="mt-4 text-muted-foreground">Loading JuridicoDocs...</p>
+      <p className="mt-4 text-muted-foreground">Carregando JuridicoDocs...</p>
     </div>
   );
 }

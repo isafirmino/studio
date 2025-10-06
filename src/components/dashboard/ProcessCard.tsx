@@ -36,7 +36,7 @@ export default function ProcessCard({ process }: ProcessCardProps) {
             </div>
           </div>
           <div className="mt-4 flex items-center justify-end text-sm font-semibold text-primary opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-            View Details <ArrowRight className="ml-2 h-4 w-4" />
+            Ver Detalhes <ArrowRight className="ml-2 h-4 w-4" />
           </div>
         </CardContent>
       </Card>

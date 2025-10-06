@@ -22,8 +22,8 @@ import { Spinner } from "../ui/spinner";
 import { useEffect } from "react";
 
 const profileSchema = z.object({
-  judgingBody: z.string().min(3, "Judging body is required."),
-  role: z.string().min(3, "Role is required."),
+  judgingBody: z.string().min(3, "O órgão julgador é obrigatório."),
+  role: z.string().min(3, "O cargo é obrigatório."),
 });
 
 type ProfileFormValues = z.infer<typeof profileSchema>;
@@ -53,8 +53,8 @@ export default function ProfileForm() {
   const onSubmit = async (data: ProfileFormValues) => {
     if (!user) {
       toast({
-        title: "Error",
-        description: "You must be logged in to update your profile.",
+        title: "Erro",
+        description: "Você deve estar logado para atualizar seu perfil.",
         variant: "destructive",
       });
       return;
@@ -67,16 +67,16 @@ export default function ProfileForm() {
         role: data.role,
       });
       toast({
-        title: "Success",
-        description: "Your profile has been updated.",
+        title: "Sucesso",
+        description: "Seu perfil foi atualizado.",
       });
       // Force a reload of auth state to update profileComplete
       window.location.href = "/dashboard";
     } catch (error) {
-      console.error("Error updating profile: ", error);
+      console.error("Erro ao atualizar perfil: ", error);
       toast({
-        title: "Error",
-        description: "Failed to update profile. Please try again.",
+        title: "Erro",
+        description: "Falha ao atualizar o perfil. Por favor, tente novamente.",
         variant: "destructive",
       });
     }
@@ -90,9 +90,9 @@ export default function ProfileForm() {
           name="judgingBody"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Judging Body</FormLabel>
+              <FormLabel>Órgão Julgador</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., Supreme Court of Justice" {...field} />
+                <Input placeholder="ex: Tribunal de Justiça de São Paulo" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -103,9 +103,9 @@ export default function ProfileForm() {
           name="role"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Role</FormLabel>
+              <FormLabel>Cargo</FormLabel>
               <FormControl>
-                <Input placeholder="e.g., Judge, Lawyer, Clerk" {...field} />
+                <Input placeholder="ex: Juiz, Advogado, Escrevente" {...field} />
               </FormControl>
               <FormMessage />
             </FormItem>
@@ -115,7 +115,7 @@ export default function ProfileForm() {
           {form.formState.isSubmitting && (
             <Spinner className="mr-2 h-4 w-4 animate-spin" />
           )}
-          Save and Continue
+          Salvar e Continuar
         </Button>
       </form>
     </Form>

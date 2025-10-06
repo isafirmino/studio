@@ -31,7 +31,7 @@ export default function DocumentItem({ document, processId }: DocumentItemProps)
             {document.summary && (
                  <Accordion type="single" collapsible className="w-full mt-2">
                     <AccordionItem value="item-1" className="border-b-0">
-                        <AccordionTrigger className="text-primary hover:no-underline py-1 text-sm">View AI Summary</AccordionTrigger>
+                        <AccordionTrigger className="text-primary hover:no-underline py-1 text-sm">Ver Resumo da IA</AccordionTrigger>
                         <AccordionContent className="prose prose-invert max-w-none text-muted-foreground pt-2">
                             {document.summary}
                         </AccordionContent>
@@ -42,7 +42,7 @@ export default function DocumentItem({ document, processId }: DocumentItemProps)
       </div>
       <div className="flex items-center gap-2 self-end md:self-center">
         <Button variant="outline" size="sm">
-          View Document
+          Ver Documento
         </Button>
       </div>
     </div>

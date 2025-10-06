@@ -15,6 +15,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { LogOut, Scale, User as UserIcon } from "lucide-react";
 import { PlaceHolderImages } from "@/lib/placeholder-images";
+import { ThemeSwitcher } from "./ThemeSwitcher";
 
 export default function Header() {
   const { userProfile, signOut } = useAuth();
@@ -37,7 +38,8 @@ export default function Header() {
             JuridicoDocs
           </span>
         </Link>
-        <div className="flex flex-1 items-center justify-end">
+        <div className="flex flex-1 items-center justify-end gap-2">
+          <ThemeSwitcher />
           {userProfile && (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
@@ -72,13 +74,13 @@ export default function Header() {
                 <Link href="/profile" passHref>
                   <DropdownMenuItem>
                     <UserIcon className="mr-2 h-4 w-4" />
-                    <span>Profile</span>
+                    <span>Perfil</span>
                   </DropdownMenuItem>
                 </Link>
                 <DropdownMenuSeparator />
                 <DropdownMenuItem onClick={signOut}>
                   <LogOut className="mr-2 h-4 w-4" />
-                  <span>Log out</span>
+                  <span>Sair</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>

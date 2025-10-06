@@ -56,7 +56,7 @@ export default function ProcessList({ setProcessCount }: ProcessListProps) {
         <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
         <Input
           type="text"
-          placeholder="Search by process number, parties, or subject..."
+          placeholder="Buscar por número do processo, partes ou assunto..."
           className="pl-10"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -71,9 +71,9 @@ export default function ProcessList({ setProcessCount }: ProcessListProps) {
         </div>
       ) : (
         <div className="flex flex-col items-center justify-center rounded-lg border-2 border-dashed border-border text-center p-12">
-          <h3 className="text-xl font-semibold">No Processes Found</h3>
+          <h3 className="text-xl font-semibold">Nenhum Processo Encontrado</h3>
           <p className="mt-2 text-muted-foreground">
-            {searchTerm ? "Try a different search term." : "Import your first process to get started."}
+            {searchTerm ? "Tente um termo de busca diferente." : "Importe seu primeiro processo para começar."}
           </p>
         </div>
       )}

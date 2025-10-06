@@ -16,22 +16,22 @@ export default function DashboardPage() {
     <div className="space-y-8">
       <div>
         <h1 className="text-3xl font-bold font-headline">
-          Welcome, {userProfile?.displayName?.split(" ")[0] || "User"}!
+          Bem-vindo, {userProfile?.displayName?.split(" ")[0] || "Usuário"}!
         </h1>
         <p className="text-muted-foreground">
-          You have {processCount} processes. You can import new ones at any time.
+          Você tem {processCount} processos. Você pode importar novos a qualquer momento.
         </p>
       </div>
       
       <div className="flex items-center justify-between">
-        <h2 className="text-2xl font-semibold font-headline">My Processes</h2>
+        <h2 className="text-2xl font-semibold font-headline">Meus Processos</h2>
         <ImportProcessDialog 
           isOpen={isImporting} 
           setIsOpen={setIsImporting}
         >
           <Button onClick={() => setIsImporting(true)}>
             <Plus className="mr-2 h-4 w-4" />
-            Import Process
+            Importar Processo
           </Button>
         </ImportProcessDialog>
       </div>

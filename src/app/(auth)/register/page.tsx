@@ -29,9 +29,9 @@ import { Spinner } from "@/components/ui/spinner";
 import { useToast } from "@/hooks/use-toast";
 
 const registerSchema = z.object({
-  displayName: z.string().min(1, "Full name is required."),
-  email: z.string().email("Please enter a valid email address."),
-  password: z.string().min(6, "Password must be at least 6 characters."),
+  displayName: z.string().min(1, "O nome completo é obrigatório."),
+  email: z.string().email("Por favor, insira um endereço de e-mail válido."),
+  password: z.string().min(6, "A senha deve ter pelo menos 6 caracteres."),
 });
 
 type RegisterFormValues = z.infer<typeof registerSchema>;
@@ -62,14 +62,14 @@ export default function RegisterPage() {
     try {
       await registerWithEmail(data.email, data.password, data.displayName);
       toast({
-        title: "Registration Successful!",
-        description: "Welcome to JuridicoDocs.",
+        title: "Cadastro Realizado com Sucesso!",
+        description: "Bem-vindo ao JuridicoDocs.",
       });
-      // The AuthProvider will handle redirection upon successful registration
+      // O AuthProvider cuidará do redirecionamento após o cadastro bem-sucedido
     } catch (error: any) {
       toast({
-        title: "Registration Failed",
-        description: error.message || "An unexpected error occurred. Please try again.",
+        title: "Falha no Cadastro",
+        description: error.message || "Ocorreu um erro inesperado. Por favor, tente novamente.",
         variant: "destructive",
       });
       setIsSubmitting(false);
@@ -82,11 +82,11 @@ export default function RegisterPage() {
         <div className="inline-flex justify-center items-center gap-2 mb-4">
             <Scale className="h-8 w-8 text-primary drop-shadow-[0_0_8px_hsl(var(--primary))]" />
             <CardTitle className="text-3xl font-bold font-headline">
-            Create an Account
+            Crie uma Conta
             </CardTitle>
         </div>
         <CardDescription>
-          Enter your information to create an account
+          Insira suas informações para criar uma conta
         </CardDescription>
       </CardHeader>
       <CardContent>
@@ -97,7 +97,7 @@ export default function RegisterPage() {
               name="displayName"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Full Name</FormLabel>
+                  <FormLabel>Nome Completo</FormLabel>
                   <FormControl>
                     <Input placeholder="John Doe" {...field} />
                   </FormControl>
@@ -112,7 +112,7 @@ export default function RegisterPage() {
                 <FormItem>
                   <FormLabel>Email</FormLabel>
                   <FormControl>
-                    <Input placeholder="m@example.com" {...field} />
+                    <Input placeholder="m@exemplo.com" {...field} />
                   </FormControl>
                   <FormMessage />
                 </FormItem>
@@ -123,7 +123,7 @@ export default function RegisterPage() {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel>Password</FormLabel>
+                  <FormLabel>Senha</FormLabel>
                   <FormControl>
                     <Input type="password" {...field} />
                   </FormControl>
@@ -135,15 +135,15 @@ export default function RegisterPage() {
                {isSubmitting ? (
                 <Spinner className="animate-spin" />
               ) : (
-                "Create Account"
+                "Criar Conta"
               )}
             </Button>
           </form>
         </Form>
         <div className="mt-4 text-center text-sm">
-          Already have an account?{" "}
+          Já tem uma conta?{" "}
           <Link href="/login" className="underline text-primary">
-            Sign in
+            Faça login
           </Link>
         </div>
       </CardContent>

@@ -34,24 +34,24 @@ export default function ImportProcessDialog({ children, isOpen, setIsOpen }: Imp
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!user) {
-      toast({ title: "Authentication Error", description: "You must be logged in to import a process.", variant: "destructive" });
+      toast({ title: "Erro de Autenticação", description: "Você deve estar logado para importar um processo.", variant: "destructive" });
       return;
     }
     if (!processNumber.trim()) {
-      toast({ title: "Validation Error", description: "Process number cannot be empty.", variant: "destructive" });
+      toast({ title: "Erro de Validação", description: "O número do processo não pode estar vazio.", variant: "destructive" });
       return;
     }
 
     setIsSubmitting(true);
     try {
       const newProcessId = await addProcessForUser(user.uid, processNumber);
-      toast({ title: "Success!", description: `Process ${processNumber} imported.` });
+      toast({ title: "Sucesso!", description: `Processo ${processNumber} importado.` });
       setIsOpen(false);
       setProcessNumber("");
       router.push(`/process/${newProcessId}`);
     } catch (error) {
-      console.error("Error importing process:", error);
-      toast({ title: "Import Error", description: "Failed to import process. Please try again.", variant: "destructive" });
+      console.error("Erro ao importar processo:", error);
+      toast({ title: "Erro na Importação", description: "Falha ao importar processo. Por favor, tente novamente.", variant: "destructive" });
     } finally {
       setIsSubmitting(false);
     }
@@ -62,9 +62,9 @@ export default function ImportProcessDialog({ children, isOpen, setIsOpen }: Imp
       <DialogTrigger asChild>{children}</DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle className="font-headline">Import Legal Process</DialogTitle>
+          <DialogTitle className="font-headline">Importar Processo Jurídico</DialogTitle>
           <DialogDescription>
-            Enter the process number to import it from the Datajud API. This will fetch metadata and associated documents.
+            Digite o número do processo para importá-lo da API Datajud. Isso buscará metadados e documentos associados.
           </DialogDescription>
         </DialogHeader>
         <form onSubmit={handleSubmit} className="space-y-4">
@@ -76,11 +76,11 @@ export default function ImportProcessDialog({ children, isOpen, setIsOpen }: Imp
           />
           <DialogFooter>
             <Button type="button" variant="secondary" onClick={() => setIsOpen(false)} disabled={isSubmitting}>
-              Cancel
+              Cancelar
             </Button>
             <Button type="submit" disabled={isSubmitting}>
               {isSubmitting && <Spinner className="mr-2 h-4 w-4 animate-spin" />}
-              Import
+              Importar
             </Button>
           </DialogFooter>
         </form>

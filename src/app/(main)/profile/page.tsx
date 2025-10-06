@@ -12,10 +12,10 @@ export default function ProfilePage() {
     <div className="mx-auto max-w-2xl">
       <Card className="bg-card border-border shadow-lg shadow-primary/10">
         <CardHeader>
-          <CardTitle className="font-headline text-2xl">User Profile</CardTitle>
+          <CardTitle className="font-headline text-2xl">Perfil de Usuário</CardTitle>
           <CardDescription>
-            Complete your profile to get started. This information helps us
-            tailor your experience.
+            Complete seu perfil para começar. Esta informação nos ajuda
+            a personalizar sua experiência.
           </CardDescription>
         </CardHeader>
         <CardContent>

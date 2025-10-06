@@ -11,6 +11,13 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useAuth } from "@/hooks/useAuth";
@@ -104,9 +111,18 @@ export default function ProfileForm() {
           render={({ field }) => (
             <FormItem>
               <FormLabel>Cargo</FormLabel>
-              <FormControl>
-                <Input placeholder="ex: Juiz, Advogado, Escrevente" {...field} />
-              </FormControl>
+              <Select onValueChange={field.onChange} defaultValue={field.value}>
+                <FormControl>
+                  <SelectTrigger>
+                    <SelectValue placeholder="Selecione seu cargo" />
+                  </SelectTrigger>
+                </FormControl>
+                <SelectContent>
+                  <SelectItem value="Juiz">Juiz</SelectItem>
+                  <SelectItem value="Assessor">Assessor</SelectItem>
+                  <SelectItem value="Desembargador">Desembargador</SelectItem>
+                </SelectContent>
+              </Select>
               <FormMessage />
             </FormItem>
           )}

@@ -1,5 +1,4 @@
 import axios from 'axios';
-import 'dotenv/config';
 
 const API_BASE_URL = 'https://api-publica.datajud.cnj.jus.br';
 const TRIBUNAL = 'TJMS'; // Tribunal de Justiça de Mato Grosso do Sul
